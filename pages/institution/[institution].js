@@ -4,16 +4,21 @@ import { useLoadScript } from "@react-google-maps/api";
 import NavBar from "../../components/NavBar/NavBar";
 import Button from "../../components/Button";
 import Map from "../../components/Map";
+import data from "../../data.json" assert { type: "json" };
 
 {
-  /* API DEL BACK-END */
-}
-const API_URL =
+  /* API'S BACK-END (DATABASE) QOVERY EXTERNAL LINK*/
+  /*const API_URL =
   "https://z7d7c6145-z5b7a4427-gtw.z897bb54d.blockdev.sh/api/getAll/institutions";
-const API_URL_SLUG = (slug) =>
-  `https://z7d7c6145-z5b7a4427-gtw.z897bb54d.blockdev.sh/api/getOne/${slug}`;
-/*const API_URL = "http://localhost:3001/api/getAll/institutions";
-const API_URL_SLUG = (slug) => `http://localhost:3001/api/getOne/${slug}`;*/
+  const API_URL_SLUG = (slug) =>
+  `https://z7d7c6145-z5b7a4427-gtw.z897bb54d.blockdev.sh/api/getOne/${slug}`;*/
+}
+
+{
+  /* API'S BACK-END (DATABASE) LOCAL EXTERNAL LINK*/
+  /*const API_URL = "http://localhost:3001/api/getAll/institutions";*/
+  /*const API_URL_SLUG = (slug) => `http://localhost:3001/api/getOne/${slug}`;*/
+}
 
 function Institution({ institutionData }) {
   const router = useRouter();
@@ -128,8 +133,13 @@ function Institution({ institutionData }) {
 
 export default Institution;
 
+//console.log("DATA JSON details", data);
+
 export const getStaticPaths = async () => {
-  const getInstitutions = () =>
+  {
+    /* FETCH METHOD: IN CASE WE ARE GETTING DATA FROM OUR DATABASE (OUR BACK-END)*/
+  }
+  /*const getInstitutions = () =>
     fetch(API_URL)
       .then((response) => response.json())
       .catch((error) => {
@@ -139,8 +149,9 @@ export const getStaticPaths = async () => {
         return data.data;
       });
 
-  const receivedInstitutions = await getInstitutions();
-  const institutionUrls = receivedInstitutions.map(
+  //PART OF GETTING DATA FROM OUR DATABASE: OBTAINING/SAVING THE DATA TO A CONST.
+  const receivedInstitutions = await getInstitutions();*/
+  const institutionUrls = data.map(
     (institution) => `/institution/${institution.slug}`
   );
 
@@ -152,9 +163,15 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   const slug = params.institution;
-  const url = API_URL_SLUG(slug);
+  //const url = API_URL_SLUG(slug);
+  let foundInsti = data.find((x) => x.slug === slug);
+  let jsonString = JSON.stringify(foundInsti);
+  const institutionData = JSON.parse(jsonString);
 
-  const getInstitutionData = () =>
+  {
+    /* FETCH METHOD: IN CASE WE ARE GETTING DATA FROM OUR DATABASE (OUR BACK-END)*/
+  }
+  /*const getInstitutionData = () =>
     fetch(url)
       .then((response) => response.json())
       .catch((error) => {
@@ -162,7 +179,7 @@ export const getStaticProps = async ({ params }) => {
       })
       .then((data) => data.data);
 
-  const institutionData = await getInstitutionData();
+  const institutionData = await getInstitutionData();*/
 
   if (!institutionData) {
     return {

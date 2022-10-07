@@ -1,13 +1,18 @@
 import React from "react";
 import NavBar from "../components/NavBar/NavBar";
 import Card from "../components/Card";
+import data from "../data.json";
 
 {
-  /* API DEL BACK-END */
+  /* API'S BACK-END (DATABASE) QOVERY EXTERNAL LINK*/
+  /*const API_URL =
+  "https://z7d7c6145-z5b7a4427-gtw.z897bb54d.blockdev.sh/api/getAll/institutions";*/
 }
-const API_URL =
-  "https://z7d7c6145-z5b7a4427-gtw.z897bb54d.blockdev.sh/api/getAll/institutions";
-/*const API_URL = "http://localhost:3001/api/getAll/institutions";*/
+
+{
+  /* API'S BACK-END (DATABASE) LOCAL EXTERNAL LINK*/
+  /*const API_URL = "http://localhost:3001/api/getAll/institutions";*/
+}
 
 function list({ institutions, address, institution }) {
   return (
@@ -58,7 +63,10 @@ function getDistance(x1, y1, x2, y2) {
 }
 
 export const getServerSideProps = async ({ query }) => {
-  const getInstitutionData = () =>
+  {
+    /* FETCH METHOD: IN CASE WE ARE GETTING DATA FROM OUR DATABASE (OUR BACK-END)*/
+  }
+  /*const getInstitutionData = () =>
     fetch(API_URL)
       .then((response) => response.json())
       .catch((error) => {
@@ -68,13 +76,13 @@ export const getServerSideProps = async ({ query }) => {
         return data.data;
       });
 
-  const receivedInstitutions = await getInstitutionData();
+  const receivedInstitutions = await getInstitutionData();*/
 
   const MAX_DISTANCE = 1500;
   const { lat, lng, route, street_number } = query;
   const address = route + " " + street_number;
   // search the related institutions
-  const institutions = receivedInstitutions.filter((institution) => {
+  const institutions = data.filter((institution) => {
     if (!lat || !lng) return institution;
 
     const distance =
